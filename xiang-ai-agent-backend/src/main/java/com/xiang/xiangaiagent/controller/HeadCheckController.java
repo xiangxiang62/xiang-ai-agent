@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/health")
-public class headCheckController {
+public class HeadCheckController {
 
 
     /**
