@@ -1,3 +1,10 @@
+### CUSTOM ###
+application-local.yml
+vcs.xml
+tmp/
+
+
+
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
