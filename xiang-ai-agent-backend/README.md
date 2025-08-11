@@ -1,4 +1,4 @@
-# 享·AI智能体项目 (Enjoy-AI-Agent)
+# 享·AI智能体项目 (Enjoy-AI-Agent) 
 
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![SpringBoot](https://img.shields.io/badge/Spring%20Boot-3.0+-green)
