@@ -1,6 +1,7 @@
 ### CUSTOM ###
 application-local.yml
 vcs.xml
+workspace.xml
 tmp/
 
 
