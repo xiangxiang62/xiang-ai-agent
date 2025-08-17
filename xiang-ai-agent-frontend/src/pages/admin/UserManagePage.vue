@@ -14,65 +14,39 @@
     </a-form>
     <a-divider />
     <!-- 表格 -->
+    <a-table
+      :columns="columns"
+      :data-source="data"
+      :pagination="pagination"
+      @change="doTableChange"
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'userAvatar'">
+          <a-image :src="record.userAvatar" :width="120" />
+        </template>
+        <template v-else-if="column.dataIndex === 'userRole'">
+          <div v-if="record.userRole === 'admin'">
+            <a-tag color="green">管理员</a-tag>
+          </div>
+          <div v-else>
+            <a-tag color="blue">普通用户</a-tag>
+          </div>
+        </template>
+        <template v-else-if="column.dataIndex === 'createTime'">
+          {{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+        <template v-else-if="column.key === 'action'">
+          <a-button danger @click="doDelete(record.id)">删除</a-button>
+        </template>
+      </template>
+    </a-table>
   </div>
-
-  <a-table :columns="columns" :data-source="data" :pagination="pagination" @change="doTableChange">
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.dataIndex === 'userAvatar'">
-        <a-image :src="record.userAvatar" :width="50" />
-      </template>
-      <template v-else-if="column.dataIndex === 'userRole'">
-        <div v-if="record.userRole === 'admin'">
-          <a-tag color="green">管理员</a-tag>
-        </div>
-        <div v-else>
-          <a-tag color="blue">普通用户</a-tag>
-        </div>
-      </template>
-      <template v-else-if="column.dataIndex === 'createTime'">
-        {{ dayjs(record.createTime).format('YYYY-MM-DD HH:mm:ss') }}
-      </template>
-      <template v-else-if="column.key === 'action'">
-        <a-button danger @click="doDelete(record.id)">删除</a-button>
-      </template>
-    </template>
-  </a-table>
 </template>
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { message } from 'ant-design-vue'
 import { deleteUser, listUserVoByPage } from '@/api/userController.ts'
+import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
-
-// 数据
-const data = ref<API.UserVO[]>([])
-const total = ref(0)
-
-// 搜索条件
-const searchParams = reactive<API.UserQueryRequest>({
-  pageNum: 1,
-  pageSize: 10,
-})
-
-// 获取数据
-const fetchData = async () => {
-  const [res] = await Promise.all([
-    listUserVoByPage({
-      ...searchParams,
-    }),
-  ])
-  if (res.data.data) {
-    data.value = res.data.data.records ?? []
-    total.value = res.data.data.totalRow ?? 0
-  } else {
-    message.error('获取数据失败，' + res.data.message)
-  }
-}
-
-// 页面加载时请求一次
-onMounted(() => {
-  fetchData()
-})
 
 const columns = [
   {
@@ -109,6 +83,29 @@ const columns = [
   },
 ]
 
+// 展示的数据
+const data = ref<API.UserVO[]>([])
+const total = ref(0)
+
+// 搜索条件
+const searchParams = reactive<API.UserQueryRequest>({
+  pageNum: 1,
+  pageSize: 10,
+})
+
+// 获取数据
+const fetchData = async () => {
+  const res = await listUserVoByPage({
+    ...searchParams,
+  })
+  if (res.data.data) {
+    data.value = res.data.data.records ?? []
+    total.value = res.data.data.totalRow ?? 0
+  } else {
+    message.error('获取数据失败，' + res.data.message)
+  }
+}
+
 // 分页参数
 const pagination = computed(() => {
   return {
@@ -120,20 +117,19 @@ const pagination = computed(() => {
   }
 })
 
-// 表格变化处理
-const doTableChange = (page: any) => {
+// 表格分页变化时的操作
+const doTableChange = (page: { current: number; pageSize: number }) => {
   searchParams.pageNum = page.current
   searchParams.pageSize = page.pageSize
   fetchData()
 }
 
-// 获取数据
+// 搜索数据
 const doSearch = () => {
   // 重置页码
   searchParams.pageNum = 1
   fetchData()
 }
-
 
 // 删除数据
 const doDelete = async (id: string) => {
@@ -150,10 +146,16 @@ const doDelete = async (id: string) => {
   }
 }
 
+// 页面加载时请求一次
+onMounted(() => {
+  fetchData()
+})
 </script>
 
-<style>
+<style scoped>
 #userManagePage {
-  width: 1200px;
+  padding: 24px;
+  background: white;
+  margin-top: 16px;
 }
 </style>
