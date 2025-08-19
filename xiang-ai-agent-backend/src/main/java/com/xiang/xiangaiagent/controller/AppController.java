@@ -14,10 +14,7 @@ import com.xiang.xiangaiagent.constant.UserConstant;
 import com.xiang.xiangaiagent.exception.BusinessException;
 import com.xiang.xiangaiagent.exception.ErrorCode;
 import com.xiang.xiangaiagent.exception.ThrowUtils;
-import com.xiang.xiangaiagent.model.dto.app.AppAddRequest;
-import com.xiang.xiangaiagent.model.dto.app.AppAdminUpdateRequest;
-import com.xiang.xiangaiagent.model.dto.app.AppQueryRequest;
-import com.xiang.xiangaiagent.model.dto.app.AppUpdateRequest;
+import com.xiang.xiangaiagent.model.dto.app.*;
 import com.xiang.xiangaiagent.model.entity.User;
 import com.xiang.xiangaiagent.model.enums.CodeGenTypeEnum;
 import com.xiang.xiangaiagent.model.vo.AppVO;
@@ -329,5 +326,26 @@ public class AppController {
                                 .build()
                 ));
     }
+
+
+    /**
+     * 应用部署
+     *
+     * @param appDeployRequest 部署请求
+     * @param request          请求
+     * @return 部署 URL
+     */
+    @PostMapping("/deploy")
+    public BaseResponse<String> deployApp(@RequestBody AppDeployRequest appDeployRequest, HttpServletRequest request) {
+        ThrowUtils.throwIf(appDeployRequest == null, ErrorCode.PARAMS_ERROR);
+        Long appId = appDeployRequest.getAppId();
+        ThrowUtils.throwIf(appId == null || appId <= 0, ErrorCode.PARAMS_ERROR, "应用 ID 不能为空");
+        // 获取当前登录用户
+        User loginUser = userService.getLoginUser(request);
+        // 调用服务部署应用
+        String deployUrl = appService.deployApp(appId, loginUser);
+        return ResultUtils.success(deployUrl);
+    }
+
 
 }

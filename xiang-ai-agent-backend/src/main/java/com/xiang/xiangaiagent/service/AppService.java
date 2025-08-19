@@ -2,16 +2,10 @@ package com.xiang.xiangaiagent.service;
 
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.core.service.IService;
-import com.xiang.xiangaiagent.core.AiCodeGeneratorFacade;
-import com.xiang.xiangaiagent.exception.BusinessException;
-import com.xiang.xiangaiagent.exception.ErrorCode;
-import com.xiang.xiangaiagent.exception.ThrowUtils;
 import com.xiang.xiangaiagent.model.dto.app.AppQueryRequest;
 import com.xiang.xiangaiagent.model.entity.App;
 import com.xiang.xiangaiagent.model.entity.User;
-import com.xiang.xiangaiagent.model.enums.CodeGenTypeEnum;
 import com.xiang.xiangaiagent.model.vo.AppVO;
-import jakarta.annotation.Resource;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -23,6 +17,14 @@ import java.util.List;
  */
 public interface AppService extends IService<App> {
 
+    /**
+     * 部署应用
+     *
+     * @param appId 应用 id
+     * @param loginUser 登录用户
+     * @return
+     */
+    String deployApp(Long appId, User loginUser);
 
     /**
      * 对话生成代码
