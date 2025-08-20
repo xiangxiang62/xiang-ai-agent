@@ -73,7 +73,7 @@ public class ChatHistoryServiceImpl extends ServiceImpl<ChatHistoryMapper, ChatH
     /**
      * 获取查询包装类
      *
-     * @param chatHistoryQueryRequest
+     * @param chatHistoryQueryRequest 历史对话请求
      * @return
      */
     @Override

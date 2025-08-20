@@ -112,7 +112,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
      *
      * @param userAccount  用户账户
      * @param userPassword 用户密码
-     * @param request
+     * @param request 请求
      * @return
      */
     @Override
@@ -172,7 +172,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
     /**
      * 用户退出登录
      *
-     * @param request
+     * @param request 请求
      * @return
      */
     @Override
