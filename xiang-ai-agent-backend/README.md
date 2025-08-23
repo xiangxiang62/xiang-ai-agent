@@ -1,4 +1,4 @@
-# 享·AI智能体项目 (Enjoy-AI-Agent) 
+# 享·AI智能体项目
 
 ![Java](https://img.shields.io/badge/Java-21-blue)
 ![SpringBoot](https://img.shields.io/badge/Spring%20Boot-3.0+-green)
@@ -9,7 +9,7 @@
 ## 技术栈
 
 - **核心框架**: Spring Boot 3.2+
-- **Java版本**: JDK 21
+- **Java 版本**: JDK 21
 - **构建工具**: Maven/Gradle
 - **API文档**: SpringDoc OpenAPI 3.0
 - **其他技术**: 
